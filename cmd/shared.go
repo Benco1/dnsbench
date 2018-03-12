@@ -1,41 +1,20 @@
-package main
+package cmd
 
 import (
-	"flag"
 	"fmt"
 	"log"
-	"os"
-	"path"
 	"time"
 
-	"github.com/askcom/dnsbench"
+	"github.com/askcom/dnsbench/dnsbench"
 	"github.com/codahale/hdrhistogram"
 )
 
-func main() {
+// benchmark is a shared function to execute benchmarking in either local or remote context
+func benchmark(localResolver *bool, concur *int, count *int, interval *time.Duration, namesfile *string, qps *int) {
 	var nameserver string
 	stats := dnsbench.Stats{}
 	stats.Hist = hdrhistogram.New(0, 5e+9, 3)
 	stats.IntHist = hdrhistogram.New(0, 5e+9, 3)
-
-	count := flag.Int("count", 1000, "Number of requests to make")
-	interval := flag.Duration("interval", 5*time.Second, "Reporting interval")
-	concur := flag.Int("concurrency", 10, "Numer of concurrent requests")
-	namesfile := flag.String("names", "-", "File containing names to request")
-	localResolver := flag.Bool("local", false, "Use local resolver")
-	qps := flag.Int("qps", 0, "QPS to attempt for each worker (0 for no limit)")
-	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s <nameserver> [flags]\n", path.Base(os.Args[0]))
-		flag.PrintDefaults()
-	}
-	flag.Parse()
-	if !*localResolver {
-		if flag.NArg() != 1 {
-			flag.Usage()
-			os.Exit(2)
-		}
-		nameserver = flag.Arg(0)
-	}
 	results := make(chan *dnsbench.Result, *concur)
 	cleanup := make(chan bool, 2)
 	names, err := dnsbench.ReadNames(*namesfile)
