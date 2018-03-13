@@ -11,7 +11,8 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Display program version.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("version called")
+		var version = "master"
+		fmt.Println(version)
 	},
 }
 

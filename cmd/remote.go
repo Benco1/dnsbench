@@ -18,5 +18,4 @@ var remoteCmd = &cobra.Command{
 
 func init() {
 	runCmd.AddCommand(remoteCmd)
-	remoteCmd.Flags().StringVarP(&transport, "transport", "t", "udp", "query transport protocol")
 }
