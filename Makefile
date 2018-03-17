@@ -5,7 +5,7 @@ test:
 
 build: dist/dnsbench
 dist/dnsbench:
-	go build -o dist/dnsbench cmd/dnsbench/main.go
+	go build -o dist/dnsbench cmd/dnsbench.go
 
 e2e: dist/dnsbench
 	./dist/functional-tests.sh
