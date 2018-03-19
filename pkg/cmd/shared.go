@@ -10,8 +10,8 @@ import (
 )
 
 // benchmark is a shared function to execute benchmarking in either local or remote context
-func benchmark(localResolver *bool, concur *int, count *int, interval *time.Duration, namesfile *string, qps *int) {
-	var nameserver string
+func benchmark(nameserver string, localResolver *bool, concur *int, count *int, interval *time.Duration, namesfile *string, qps *int) {
+
 	stats := dnsbench.Stats{}
 	stats.Hist = hdrhistogram.New(0, 5e+9, 3)
 	stats.IntHist = hdrhistogram.New(0, 5e+9, 3)
