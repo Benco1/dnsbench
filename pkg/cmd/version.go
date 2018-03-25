@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-
+	"github.com/askcom/dnsbench/pkg/version"
 	"github.com/spf13/cobra"
 )
 
@@ -11,8 +11,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Display program version.",
 	Run: func(cmd *cobra.Command, args []string) {
-		var version = "master"
-		fmt.Println(version)
+		fmt.Println(version.Version)
 	},
 }
 
